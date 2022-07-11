@@ -1,0 +1,39 @@
+.gdo-avatar, .gdo-avatar img {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	display: inline-block;
+	vertical-align: middle;
+}
+.gdo-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+	padding: 2px;
+	background: #aaa;
+}
+
+.gdo-avatar.male img { background: #369; }
+.gdo-avatar.female img { background: #f08; }
+
+#gdo-right-bar .gdo-avatar,
+.gdo-panel .gdo-avatar {
+	width: 20px;
+	height: 20px;
+}
+
+#gdo-right-bar .gdo-avatar img,
+.gdo-panel .gdo-avatar img {
+	width: 22px;
+	height: 22px;
+}
+
+#gdo-right-bar .gdo-avatar {
+	position: relative;
+	top: -2px;
+}
+
+.card-title .gdo-avatar {
+	float: left;
+	margin-right: 8px;
+}
