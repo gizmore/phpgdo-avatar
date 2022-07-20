@@ -13,6 +13,7 @@ use GDO\UI\GDT_Button;
 use GDO\User\GDO_User;
 use GDO\Avatar\Module_Avatar;
 use GDO\UI\GDT_Redirect;
+use GDO\Net\GDT_Url;
 
 /**
  * Upload an avatar image.
@@ -49,8 +50,7 @@ final class Upload extends MethodForm
 		GDO_UserAvatar::updateAvatar($user, $avatar->getID());
 		$user->recache();
 		$this->resetForm();
-		return GDT_Redirect::make()->redirectMessage('msg_avatar_uploaded')->back();
-		Website::redirectMessage('msg_avatar_uploaded', null, href('Avatar', 'Set'));
+		return GDT_Redirect::make()->redirectMessage('msg_avatar_uploaded')->href(href('Avatar', 'Set'));
 	}
 	
 }
