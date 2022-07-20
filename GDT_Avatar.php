@@ -68,6 +68,11 @@ final class GDT_Avatar extends GDT_ObjectSelect
 	##############
 	### Render ###
 	##############
+	public function renderHTML() : string
+	{
+		return $this->renderCell();
+	}
+	
 	public function renderCell() : string
 	{
 		return Module_Avatar::instance()->php('cell/avatar.php', ['field'=>$this]);
