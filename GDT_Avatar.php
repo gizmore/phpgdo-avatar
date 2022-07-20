@@ -18,7 +18,7 @@ final class GDT_Avatar extends GDT_ObjectSelect
 	use WithGDO;
 	use WithImageSize;
 	
-    public function defaultName() { return 'avatar'; }
+    public function getDefaultName() : ?string { return 'avatar'; }
     public function defaultLabel() : self { return $this->label('avatar'); }
     
 	protected function __construct()
@@ -68,7 +68,7 @@ final class GDT_Avatar extends GDT_ObjectSelect
 	##############
 	### Render ###
 	##############
-	public function renderHTML() : string
+	public function renderCell() : string
 	{
 		return Module_Avatar::instance()->php('cell/avatar.php', ['field'=>$this]);
 	}
