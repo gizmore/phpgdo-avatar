@@ -1,4 +1,5 @@
 <?php
+namespace GDO\Avatar\tpl\cell;
 use GDO\Avatar\GDO_Avatar;
 use GDO\Avatar\GDT_Avatar;
 /** @var $field GDT_Avatar **/

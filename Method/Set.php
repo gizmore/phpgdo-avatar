@@ -1,6 +1,7 @@
 <?php
 namespace GDO\Avatar\Method;
 
+use GDO\Account\Module_Account;
 use GDO\Avatar\GDT_Avatar;
 use GDO\Avatar\GDO_UserAvatar;
 use GDO\Core\GDT_Hook;
@@ -23,12 +24,14 @@ final class Set extends MethodForm
 	public function isUserRequired() : bool { return true; }
 	public function isGuestAllowed() : bool { return Module_Avatar::instance()->cfgGuestAvatars(); }
 	
-// 	public function beforeExecute() : void
-// 	{
-// 	    Module_Account::instance()->renderAccountTabs();
-// 	    Settings::make()->navLinks();
-// 	}
-
+	public function beforeExecute() : void
+	{
+		if (module_enabled('Account'))
+		{
+			Module_Account::instance()->renderAccountBar();
+		}
+	}
+	
 	public function renderPage() : GDT
 	{
 		$avatar = GDT_Avatar::make()->currentUser()->imageSize(128)->css('margin', '16px');

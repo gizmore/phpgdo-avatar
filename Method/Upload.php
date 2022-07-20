@@ -2,7 +2,6 @@
 namespace GDO\Avatar\Method;
 
 use GDO\Account\Module_Account;
-use GDO\Account\Method\Settings;
 use GDO\Avatar\GDO_Avatar;
 use GDO\Avatar\GDO_UserAvatar;
 use GDO\Core\Website;
@@ -27,11 +26,13 @@ final class Upload extends MethodForm
 	public function isUserRequired() : bool { return true; }
 	public function isGuestAllowed() : bool { return Module_Avatar::instance()->cfgGuestAvatars(); }
 	
-// 	public function beforeExecute() : void
-// 	{
-// 	    Module_Account::instance()->renderAccountTabs();
-// 	    Settings::make()->navLinks();
-// 	}
+	public function beforeExecute() : void
+	{
+		if (module_enabled('Account'))
+		{
+			Module_Account::instance()->renderAccountBar();
+		}
+	}
 	
 	public function createForm(GDT_Form $form) : void
 	{
