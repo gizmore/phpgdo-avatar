@@ -4,17 +4,20 @@ namespace GDO\Avatar;
 use GDO\User\GDO_User;
 use GDO\Core\GDT_ObjectSelect;
 use GDO\UI\WithImageSize;
+use GDO\Core\WithGDO;
 
 /**
  * An avatar.
+ * 
  * @author gizmore
- * @version 6.10.4
+ * @version 7.0.1
  * @since 6.4.0
  */
 final class GDT_Avatar extends GDT_ObjectSelect
 {
-    use WithImageSize;
-    
+	use WithGDO;
+	use WithImageSize;
+	
     public function defaultName() { return 'avatar'; }
     public function defaultLabel() : self { return $this->label('avatar'); }
     
@@ -22,19 +25,15 @@ final class GDT_Avatar extends GDT_ObjectSelect
 	{
 	    parent::__construct();
 	    $this->icon = 'image';
-		$this->emptyLabel = 'choice_no_avatar';
+		$this->emptyInitial('choice_no_avatar');
 		$this->table(GDO_Avatar::table());
 	}
 	
-	/**
-	 * @var GDO_User
-	 */
-	public $user;
-	public function currentUser()
-	{
-		return $this->user(GDO_User::current());
-	}
-	
+	############
+	### User ###
+	############
+	public GDO_User $user;
+
 	public function user(GDO_User $user)
 	{
 		$this->user = $user;
@@ -42,19 +41,22 @@ final class GDT_Avatar extends GDT_ObjectSelect
 		$this->var = $this->gdo->getID();
 		return $this;
 	}
-	
-	public function initChoices()
+
+	public function currentUser()
 	{
-		if (!$this->choices)
-		{
-			$this->choices($this->avatarChoices());
-		}
+		return $this->user(GDO_User::current());
 	}
-	public function avatarChoices()
+	
+	###############
+	### Choices ###
+	###############
+	public function getChoices()
 	{
 		$query = GDO_Avatar::table()->select();
-		$result = $query->select('avatar_file_id_t.*, gdo_file.*')->
-		  where("avatar_public OR avatar_created_by={$this->user->getID()}")->exec();
+		$result = $query->select('avatar_file_id_t.*')->
+		  where("avatar_public OR avatar_created_by={$this->user->getID()}")->
+		  joinObject("avatar_file_id")->
+		  exec();
 		$choices = array();
 		while ($gwfAvatar = $result->fetchObject())
 		{
@@ -63,18 +65,12 @@ final class GDT_Avatar extends GDT_ObjectSelect
 		return $choices;
 	}
 	
-	public function renderChoice($avatar)
-	{
-		$gdo = $this->gdo;
-		$var = $this->var;
-		$html = Module_Avatar::instance()->php('choice/avatar.php', ['field'=>$this->gdo($avatar)]);
-		$this->gdo = $gdo;
-		$this->var = $var;
-		return $html;
-	}
-
-	public function renderCell() : string
+	##############
+	### Render ###
+	##############
+	public function renderHTML() : string
 	{
 		return Module_Avatar::instance()->php('cell/avatar.php', ['field'=>$this]);
 	}
+
 }

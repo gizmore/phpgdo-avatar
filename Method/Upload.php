@@ -13,6 +13,7 @@ use GDO\Form\MethodForm;
 use GDO\UI\GDT_Button;
 use GDO\User\GDO_User;
 use GDO\Avatar\Module_Avatar;
+use GDO\UI\GDT_Redirect;
 
 /**
  * Upload an avatar image.
@@ -24,13 +25,13 @@ use GDO\Avatar\Module_Avatar;
 final class Upload extends MethodForm
 {
 	public function isUserRequired() : bool { return true; }
-	public function isGuestAllowed() { return Module_Avatar::instance()->cfgGuestAvatars(); }
+	public function isGuestAllowed() : bool { return Module_Avatar::instance()->cfgGuestAvatars(); }
 	
-	public function beforeExecute() : void
-	{
-	    Module_Account::instance()->renderAccountTabs();
-	    Settings::make()->navLinks();
-	}
+// 	public function beforeExecute() : void
+// 	{
+// 	    Module_Account::instance()->renderAccountTabs();
+// 	    Settings::make()->navLinks();
+// 	}
 	
 	public function createForm(GDT_Form $form) : void
 	{
@@ -47,6 +48,7 @@ final class Upload extends MethodForm
 		GDO_UserAvatar::updateAvatar($user, $avatar->getID());
 		$user->recache();
 		$this->resetForm();
+		return GDT_Redirect::make()->redirectMessage('msg_avatar_uploaded')->back();
 		Website::redirectMessage('msg_avatar_uploaded', null, href('Avatar', 'Set'));
 	}
 	

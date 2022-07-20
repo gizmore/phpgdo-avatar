@@ -7,6 +7,7 @@ use GDO\Core\GDT_CreatedBy;
 use GDO\Core\GDT_Checkbox;
 use GDO\User\GDO_User;
 use GDO\File\GDT_ImageFile;
+use GDO\Core\GDT_Template;
 /**
  * An avatar image file.
  * @author gizmore
@@ -107,7 +108,12 @@ class GDO_Avatar extends GDO
 	
 	public static function renderAvatar(GDO_User $user, $size=32)
 	{
-		return self::forUser($user)->getGDOAvatar($user)->imageSize($size)->renderCell();
+		return self::forUser($user)->getGDOAvatar($user)->imageSize($size)->render();
 	}
 	
+	public function renderChoice() : string
+	{
+		$field = GDT_Avatar::make()->gdo($this);
+		return GDT_Template::php('Avatar', 'choice/avatar.php', ['field' => $field]);
+	}
 }

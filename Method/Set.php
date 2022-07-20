@@ -11,9 +11,8 @@ use GDO\Form\MethodForm;
 use GDO\UI\GDT_Button;
 use GDO\User\GDO_User;
 use GDO\Avatar\Module_Avatar;
-use GDO\Account\Module_Account;
-use GDO\Account\Method\Settings;
-use GDO\UI\GDT_HTML;
+use GDO\Core\GDT;
+use GDO\Core\GDT_Tuple;
 
 /**
  * Set an avatar picture out of possible choices.
@@ -22,25 +21,31 @@ use GDO\UI\GDT_HTML;
 final class Set extends MethodForm
 {
 	public function isUserRequired() : bool { return true; }
-	public function isGuestAllowed() { return Module_Avatar::instance()->cfgGuestAvatars(); }
+	public function isGuestAllowed() : bool { return Module_Avatar::instance()->cfgGuestAvatars(); }
 	
-	public function beforeExecute() : void
+// 	public function beforeExecute() : void
+// 	{
+// 	    Module_Account::instance()->renderAccountTabs();
+// 	    Settings::make()->navLinks();
+// 	}
+
+	public function renderPage() : GDT
 	{
-	    Module_Account::instance()->renderAccountTabs();
-	    Settings::make()->navLinks();
+		$avatar = GDT_Avatar::make()->currentUser()->imageSize(128)->css('margin', '16px');
+		return GDT_Tuple::make()->addField($avatar)->addField(parent::renderPage());
 	}
 	
 	public function createForm(GDT_Form $form) : void
 	{
-	    $form->addField(
-	        GDT_HTML::make()->addField(
-	            GDT_Avatar::make()->currentUser()->
-	                imageSize(128)->css('margin', '16px')));
+// 	    $form->addField(
+// 	        GDT_HTML::make()->addField(
+// 	            GDT_Avatar::make()->currentUser()->
+// 	                imageSize(128)->css('margin', '16px')));
 		$form->addField(GDT_Avatar::make('avt_avatar_id')->currentUser());
 		$form->actions()->addField(GDT_Submit::make()->label('btn_set'));
 		$form->actions()->addField(GDT_Button::make('btn_upload')->href(href('Avatar', 'Upload'))->icon('upload'));
 		$form->addField(GDT_AntiCSRF::make());
-		$form->withGDOValuesFrom(GDO_User::current());
+// 		$form->withGDOValuesFrom(GDO_User::current());
 	}
 
 	public function formValidated(GDT_Form $form)
@@ -52,12 +57,9 @@ final class Set extends MethodForm
 		return $this->message('msg_avatar_set')->addField($this->renderPage());
 	}
 	
-	public function afterExecute()
+	public function afterExecute() : void
 	{
-		if ($this->getForm()->validated)
-		{
-			GDT_Hook::callWithIPC('AvatarSet', GDO_User::current());
-		}
+		GDT_Hook::callWithIPC('AvatarSet', GDO_User::current());
 	}
 
 }

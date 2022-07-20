@@ -8,6 +8,7 @@ use GDO\File\GDT_ImageFile;
 use GDO\File\GDO_File;
 use GDO\UI\GDT_Page;
 use GDO\UI\GDT_Link;
+use GDO\UI\GDT_Bar;
 
 /**
  * Avatar module.
@@ -37,7 +38,7 @@ final class Module_Avatar extends GDO_Module
 	{
 		return [
 		    GDT_Checkbox::make('avatar_guests')->initial('1'),
-		    GDT_Checkbox::make('avatar_sidebar')->initial('0'),
+		    GDT_Checkbox::make('hook_sidebar')->initial('0'),
 		    GDT_ImageFile::make('avatar_image_guest')->previewHREF(href('Avatar', 'Image', '&file={id}'))->scaledVersion('icon', 96, 96)->scaledVersion('thumb', 375, 375),
 		    GDT_ImageFile::make('avatar_image_member')->previewHREF(href('Avatar', 'Image', '&file={id}'))->scaledVersion('icon', 96, 96)->scaledVersion('thumb', 375, 375),
 		    GDT_ImageFile::make('avatar_image_male')->previewHREF(href('Avatar', 'Image', '&file={id}'))->scaledVersion('icon', 96, 96)->scaledVersion('thumb', 375, 375),
@@ -45,7 +46,7 @@ final class Module_Avatar extends GDO_Module
 		];
 	}
 	public function cfgGuestAvatars() { return $this->getConfigValue('avatar_guests'); }
-	public function cfgAvatarSidebar() { return $this->getConfigValue('avatar_sidebar'); }
+	public function cfgAvatarSidebar() { return $this->getConfigValue('hook_sidebar'); }
 	
 	/**
 	 * @return GDT_ImageFile
@@ -82,9 +83,14 @@ final class Module_Avatar extends GDO_Module
 	############
 	### Hook ###
 	############
-	public function hookAccountChanged(GDO_User $user)
+	public function hookAccountChanged(GDO_User $user) : void
 	{
 		$user->tempUnset('gdo_avatar');
+	}
+
+	public function hookAccountBar(GDT_Bar $bar) : void
+	{
+		$bar->addField(GDT_Link::make('btn_avatar')->href(href('Avatar', 'Set')));
 	}
 
 }
