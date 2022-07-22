@@ -4,7 +4,6 @@ namespace GDO\Avatar\Method;
 use GDO\Account\Module_Account;
 use GDO\Avatar\GDO_Avatar;
 use GDO\Avatar\GDO_UserAvatar;
-use GDO\Core\Website;
 use GDO\Form\GDT_AntiCSRF;
 use GDO\Form\GDT_Form;
 use GDO\Form\GDT_Submit;
@@ -13,13 +12,12 @@ use GDO\UI\GDT_Button;
 use GDO\User\GDO_User;
 use GDO\Avatar\Module_Avatar;
 use GDO\UI\GDT_Redirect;
-use GDO\Net\GDT_Url;
 
 /**
  * Upload an avatar image.
  * 
  * @author gizmore
- * @version 6.10.4
+ * @version 7.0.1
  * @since 6.2.0
  */
 final class Upload extends MethodForm
