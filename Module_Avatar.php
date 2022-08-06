@@ -9,6 +9,7 @@ use GDO\File\GDO_File;
 use GDO\UI\GDT_Page;
 use GDO\UI\GDT_Link;
 use GDO\UI\GDT_Bar;
+use GDO\UI\GDT_Card;
 
 /**
  * Avatar module.
@@ -93,4 +94,10 @@ final class Module_Avatar extends GDO_Module
 		$bar->addField(GDT_Link::make('btn_avatar')->href(href('Avatar', 'Set')));
 	}
 
+	public function hookCreateCardUserProfile(GDT_Card $card)
+	{
+		$user = $card->gdo->getUser();
+		$avatar = GDT_Avatar::make()->user($user);
+		$card->addFieldFirst($avatar);
+	}
 }
