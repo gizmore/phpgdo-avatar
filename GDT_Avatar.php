@@ -38,7 +38,7 @@ final class GDT_Avatar extends GDT_ObjectSelect
 	{
 		$this->user = $user;
 		$this->gdo = GDO_Avatar::forUser($user);
-		$this->var = $this->gdo->getID();
+		$this->var($this->gdo->getID());
 		return $this;
 	}
 
@@ -57,10 +57,10 @@ final class GDT_Avatar extends GDT_ObjectSelect
 		  where("avatar_public OR avatar_created_by={$this->user->getID()}")->
 		  joinObject("avatar_file_id")->
 		  exec();
-		$choices = array();
-		while ($gwfAvatar = $result->fetchObject())
+		$choices = [];
+		while ($gdo = $result->fetchObject())
 		{
-			$choices[$gwfAvatar->getID()] = $gwfAvatar;
+			$choices[$gdo->getID()] = $gdo;
 		}
 		return $choices;
 	}

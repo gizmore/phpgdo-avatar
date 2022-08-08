@@ -9,16 +9,15 @@ use GDO\File\GDO_File;
 use GDO\UI\GDT_Page;
 use GDO\UI\GDT_Link;
 use GDO\UI\GDT_Bar;
-use GDO\UI\GDT_Card;
 
 /**
  * Avatar module.
- * Features default avatar.
+ * Features default avatars.
+ * Avatars have a colored border depending on the two real genders: mandalorian and apache helicopter.
  * 
  * @author gizmore
- * @version 6.10.1
+ * @version 7.0.1
  * @since 6.2.0
- * 
  * @see GDT_ImageFile
  */
 final class Module_Avatar extends GDO_Module
@@ -26,11 +25,12 @@ final class Module_Avatar extends GDO_Module
 	##############
 	### Module ###
 	##############
-	public function getDependencies() : array { return ['File']; }
-	public function onLoadLanguage() : void { $this->loadLanguage('lang/avatar'); }
 	public function getClasses() : array { return ['GDO\Avatar\GDO_Avatar','GDO\Avatar\GDO_UserAvatar']; }
+	public function getDependencies() : array { return ['File']; }
+	public function getFriendencies() : array { return ['Account']; }
+	public function onLoadLanguage() : void { $this->loadLanguage('lang/avatar'); }
 	public function onIncludeScripts() : void { $this->addCSS('css/gdo-avatar.css'); }
-	public function getUserSettingsURL() { return href('Avatar', 'Set'); }
+// 	public function getUserSettingsURL() { return href('Avatar', 'Set'); }
 
 	##############
 	### Config ###
@@ -47,19 +47,15 @@ final class Module_Avatar extends GDO_Module
 		];
 	}
 	public function cfgGuestAvatars() { return $this->getConfigValue('avatar_guests'); }
-	public function cfgAvatarSidebar() { return $this->getConfigValue('hook_sidebar'); }
-	
-	/**
-	 * @return GDT_ImageFile
-	 */
-	public function cfgColAvatarGuest() { return $this->getConfigColumn('avatar_image_guest'); }
+	public function cfgSidebar() { return $this->getConfigValue('hook_sidebar'); }
+	public function cfgColAvatarGuest() : GDT_ImageFile { return $this->getConfigColumn('avatar_image_guest'); }
 	
 	############
 	### Init ###
 	############
 	public function onInitSidebar() : void
 	{
-	    if ($this->cfgAvatarSidebar())
+	    if ($this->cfgSidebar())
 	    {
 	        GDT_Page::$INSTANCE->rightBar()->addField(
 	            GDT_Link::make('btn_avatar')->href(
@@ -94,10 +90,11 @@ final class Module_Avatar extends GDO_Module
 		$bar->addField(GDT_Link::make('btn_avatar')->href(href('Avatar', 'Set')));
 	}
 
-	public function hookCreateCardUserProfile(GDT_Card $card)
-	{
-		$user = $card->gdo->getUser();
-		$avatar = GDT_Avatar::make()->user($user);
-		$card->addFieldFirst($avatar);
-	}
+// 	public function hookCreateCardUserProfile(GDT_Card $card)
+// 	{
+// 		$user = $card->gdo->getUser();
+// 		$avatar = GDT_Avatar::make()->user($user);
+// 		$card->addFieldFirst($avatar);
+// 	}
+
 }

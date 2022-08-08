@@ -18,7 +18,7 @@ use GDO\File\Method\GetFile;
  */
 final class Image extends Method
 {
-	public function saveLastUrl() : bool { return false; }
+	public function isSavingLastUrl() : bool { return false; }
 	
 	public function execute()
 	{

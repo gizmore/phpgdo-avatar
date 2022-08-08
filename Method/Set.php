@@ -17,6 +17,7 @@ use GDO\Core\GDT_Tuple;
 
 /**
  * Set an avatar picture out of possible choices.
+ * 
  * @author gizmore
  */
 final class Set extends MethodForm
