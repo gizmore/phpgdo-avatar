@@ -41,23 +41,16 @@ final class Set extends MethodForm
 	
 	public function createForm(GDT_Form $form) : void
 	{
-// 	    $form->addField(
-// 	        GDT_HTML::make()->addField(
-// 	            GDT_Avatar::make()->currentUser()->
-// 	                imageSize(128)->css('margin', '16px')));
 		$form->addField(GDT_Avatar::make('avt_avatar_id')->currentUser());
 		$form->actions()->addField(GDT_Submit::make()->label('btn_set'));
 		$form->actions()->addField(GDT_Button::make('btn_upload')->href(href('Avatar', 'Upload'))->icon('upload'));
 		$form->addField(GDT_AntiCSRF::make());
-// 		$form->withGDOValuesFrom(GDO_User::current());
 	}
 
 	public function formValidated(GDT_Form $form)
 	{
 		$user = GDO_User::current();
 		GDO_UserAvatar::updateAvatar($user, $form->getFormVar('avt_avatar_id'));
-// 		$user->recache();
-// 		$this->resetForm();
 		return $this->message('msg_avatar_set')->addField($this->renderPage());
 	}
 	
