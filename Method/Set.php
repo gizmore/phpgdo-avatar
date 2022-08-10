@@ -35,13 +35,14 @@ final class Set extends MethodForm
 	
 	public function renderPage() : GDT
 	{
-		$form = parent::renderPage()->addClass('fl');
+		$form = $this->getForm();
 		$avatar = GDT_Avatar::make()->currentUser()->imageSize(128)->css('margin', '16px')->addClass('fl');
 		return GDT_Container::make()->addFields($avatar, $form);
 	}
 	
 	public function createForm(GDT_Form $form) : void
 	{
+		$form->addClass('fl');
 		$form->addField(GDT_Avatar::make('avt_avatar_id')->currentUser());
 		$form->actions()->addField(GDT_Submit::make()->label('btn_set'));
 		$form->actions()->addField(GDT_Button::make('btn_upload')->href(href('Avatar', 'Upload'))->icon('upload'));

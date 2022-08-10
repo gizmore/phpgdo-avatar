@@ -36,7 +36,7 @@ class GDO_Avatar extends GDO
 	}
 	
 	public function getID() : ?string { return $this->gdoVar('avatar_id'); }
-	public function getFileID() : string { return $this->gdoVar('avatar_file_id'); }
+	public function getFileID() : ?string { return $this->gdoVar('avatar_file_id'); }
 	
 	######################
 	### Default Avatar ###
@@ -127,7 +127,7 @@ class GDO_Avatar extends GDO
 	public function renderOption() : string
 	{
 		$field = GDT_Avatar::make()->gdo($this);
-		return GDT_Template::php('Avatar', 'choice/avatar.php', ['field' => $field]);
+		return GDT_Template::php('Avatar', 'avatar_choice.php', ['field' => $field]);
 	}
 
 }
