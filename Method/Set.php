@@ -13,7 +13,7 @@ use GDO\UI\GDT_Button;
 use GDO\User\GDO_User;
 use GDO\Avatar\Module_Avatar;
 use GDO\Core\GDT;
-use GDO\Core\GDT_Tuple;
+use GDO\UI\GDT_Container;
 
 /**
  * Set an avatar picture out of possible choices.
@@ -35,8 +35,9 @@ final class Set extends MethodForm
 	
 	public function renderPage() : GDT
 	{
-		$avatar = GDT_Avatar::make()->currentUser()->imageSize(128)->css('margin', '16px');
-		return GDT_Tuple::make()->addField($avatar)->addField(parent::renderPage());
+		$form = parent::renderPage()->addClass('fl');
+		$avatar = GDT_Avatar::make()->currentUser()->imageSize(128)->css('margin', '16px')->addClass('fl');
+		return GDT_Container::make()->addFields($avatar, $form);
 	}
 	
 	public function createForm(GDT_Form $form) : void

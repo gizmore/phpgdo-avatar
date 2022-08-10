@@ -30,7 +30,6 @@ final class Module_Avatar extends GDO_Module
 	public function getFriendencies() : array { return ['Account']; }
 	public function onLoadLanguage() : void { $this->loadLanguage('lang/avatar'); }
 	public function onIncludeScripts() : void { $this->addCSS('css/gdo-avatar.css'); }
-// 	public function getUserSettingsURL() { return href('Avatar', 'Set'); }
 
 	##############
 	### Config ###

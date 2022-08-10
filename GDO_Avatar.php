@@ -8,12 +8,19 @@ use GDO\Core\GDT_Checkbox;
 use GDO\User\GDO_User;
 use GDO\File\GDT_ImageFile;
 use GDO\Core\GDT_Template;
+
 /**
  * An avatar image file.
+ * 
  * @author gizmore
+ * @version 7.0.1
+ * @since 6.2.0
  */
 class GDO_Avatar extends GDO
 {
+	###########
+	### GDO ###
+	###########
 	public function gdoCached() : bool { return false; }
 	public function gdoColumns() : array
 	{
@@ -23,15 +30,18 @@ class GDO_Avatar extends GDO
 		      previewHREF(href('Avatar', 'Image', '&file={id}'))->
 		      scaledVersion('icon', 96, 96)->
 		      scaledVersion('thumb', 375, 375),
-			GDT_CreatedBy::make('avatar_created_by')->notNull(),
 			GDT_Checkbox::make('avatar_public')->initial('0'),
+			GDT_CreatedBy::make('avatar_created_by')->notNull(),
 		];
 	}
 	
 	public function getID() : ?string { return $this->gdoVar('avatar_id'); }
-	public function getFileID() { return $this->gdoVar('avatar_file_id'); }
+	public function getFileID() : string { return $this->gdoVar('avatar_file_id'); }
 	
-	public static function defaultAvatar(GDO_User $user)
+	######################
+	### Default Avatar ###
+	######################
+	public static function defaultAvatar(GDO_User $user) : self
 	{
 		return self::table()->blank([
 			'avatar_id'=>'0',
@@ -39,9 +49,14 @@ class GDO_Avatar extends GDO
 		]);
 	}
 	
-	public static function getBestDefaultAvatar(GDO_User $user)
+	/**
+	 * Get the best matching default avatar for a user.
+	 * Depends on gender and usertype.
+	 */
+	public static function getBestDefaultAvatar(GDO_User $user) : ?string
 	{
 		$keys = ['avatar_image_guest']; # Last resort
+		
 		if ($user->isMember())
 		{
 			$keys[] = 'avatar_image_member';
@@ -63,14 +78,14 @@ class GDO_Avatar extends GDO
     			}
     		}
 		}
-		return '0';
+		
+		return null;
 	}
 	
-	/**
-	 * @param GDO_User $user
-	 * @return self
-	 */
-	public static function forUser(GDO_User $user)
+	###################
+	### User Avatar ###
+	###################
+	public static function forUser(GDO_User $user) : self
 	{
 		if (!$user->isPersisted())
 		{
@@ -80,7 +95,6 @@ class GDO_Avatar extends GDO
 		if (null === ($avatar = $user->tempGet('gdo_avatar')))
 		{
 			$avatarTable = self::table();
-			
 			$query = GDO_UserAvatar::table()->select('*, gdo_file.*');
 			$query->joinObject('avt_avatar_id');
 			$query->join('JOIN gdo_file ON file_id = avatar_file_id');
@@ -95,25 +109,25 @@ class GDO_Avatar extends GDO
 		return $avatar;
 	}
 	
-	/**
-	 * @param GDO_User $user
-	 * @return GDT_Avatar
-	 */
-	public function getGDOAvatar(GDO_User $user)
+	public function getGDOAvatar(GDO_User $user) : GDT_Avatar
 	{
 		static $gdt;
 		if (!$gdt) $gdt = GDT_Avatar::make();
 		return $gdt->user($user)->gdo($this);
 	}
 	
-	public static function renderAvatar(GDO_User $user, $size=32)
+	##############
+	### Render ###
+	##############
+	public static function renderAvatar(GDO_User $user, float $size=32) : string
 	{
 		return self::forUser($user)->getGDOAvatar($user)->imageSize($size)->render();
 	}
 	
-	public function renderChoice() : string
+	public function renderOption() : string
 	{
 		$field = GDT_Avatar::make()->gdo($this);
 		return GDT_Template::php('Avatar', 'choice/avatar.php', ['field' => $field]);
 	}
+
 }
