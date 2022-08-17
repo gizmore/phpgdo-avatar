@@ -19,4 +19,6 @@ return [
 	###########
 	'mt_avatar_upload' => 'Avatar hochladen',
 	'msg_avatar_uploaded' => 'Dein Avatar Bild wurde hochgeladen und ausgewählt.',
+	###########
+	'mt_avatar_image' => 'Avatar Bild',
 ];
