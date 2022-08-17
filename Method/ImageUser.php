@@ -11,14 +11,19 @@ use GDO\User\GDO_User;
  * Get the avatar for a user.
  * 
  * @author gizmore
- * @version 6.09
- * @since 6.05
+ * @version 7.0.1
+ * @since 6.5.0
  * @deprecated You should better use \GDO\Avatar\Method\Image which has no caching problems.
  * @see Image
  */
 final class ImageUser extends Method
 {
 	public function isSavingLastUrl() : bool { return false; }
+	
+	public function getMethodTitle() : string
+	{
+		return t('mt_avatar_image');
+	}
 	
 	public function execute()
 	{
