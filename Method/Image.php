@@ -30,7 +30,7 @@ final class Image extends Method
 		];
 	}
 	
-	public function getFileID() : string
+	public function getFileID() : ?string
 	{
 		return $this->gdoParameterVar('file');
 	}

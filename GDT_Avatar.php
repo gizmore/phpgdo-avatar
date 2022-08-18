@@ -45,7 +45,7 @@ final class GDT_Avatar extends GDT_ObjectSelect
 	{
 		$this->user = $user;
 		$this->gdo = GDO_Avatar::forUser($user);
-		$this->var($this->gdo->getID());
+		$this->initial($this->gdo->getID());
 		return $this;
 	}
 
