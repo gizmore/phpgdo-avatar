@@ -21,4 +21,5 @@ return [
 	'msg_avatar_uploaded' => 'Your avatar image has been uploaded and selected',
 	###########
 	'mt_avatar_image' => 'Avatar Image',
+	'mt_avatar_gallery' => 'Avatar Gallery',
 ];
