@@ -38,7 +38,7 @@ final class Module_Avatar extends GDO_Module
 	{
 		return [
 		    GDT_Checkbox::make('avatar_guests')->initial('1'),
-		    GDT_Checkbox::make('hook_sidebar')->initial('0'),
+		    GDT_Checkbox::make('hook_sidebar')->initial('1'),
 		    GDT_ImageFile::make('avatar_image_guest')->previewHREF(href('Avatar', 'Image', '&file={id}'))->scaledVersion('icon', 96, 96)->scaledVersion('thumb', 375, 375),
 		    GDT_ImageFile::make('avatar_image_member')->previewHREF(href('Avatar', 'Image', '&file={id}'))->scaledVersion('icon', 96, 96)->scaledVersion('thumb', 375, 375),
 		    GDT_ImageFile::make('avatar_image_male')->previewHREF(href('Avatar', 'Image', '&file={id}'))->scaledVersion('icon', 96, 96)->scaledVersion('thumb', 375, 375),
@@ -56,9 +56,9 @@ final class Module_Avatar extends GDO_Module
 	{
 	    if ($this->cfgSidebar())
 	    {
-	        GDT_Page::$INSTANCE->rightBar()->addField(
-	            GDT_Link::make('btn_avatar')->href(
-	                href('Avatar', 'Set')));
+	        GDT_Page::$INSTANCE->leftBar()->addField(
+	            GDT_Link::make()->label('mt_avatar_gallery')->href(
+	                href('Avatar', 'Gallery')));
 	    }
 	}
 	

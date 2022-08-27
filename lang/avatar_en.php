@@ -22,4 +22,5 @@ return [
 	###########
 	'mt_avatar_image' => 'Avatar Image',
 	'mt_avatar_gallery' => 'Avatar Gallery',
+	'list_avatar_gallery' => '%s User Avatars',
 ];
