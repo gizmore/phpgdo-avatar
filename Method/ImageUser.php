@@ -3,9 +3,8 @@ namespace GDO\Avatar\Method;
 
 use GDO\Core\Method;
 use GDO\File\Method\GetFile;
-use GDO\Util\Common;
 use GDO\Avatar\GDO_Avatar;
-use GDO\User\GDO_User;
+use GDO\User\GDT_User;
 
 /**
  * Get the avatar for a user.
@@ -25,19 +24,19 @@ final class ImageUser extends Method
 		return t('mt_avatar_image');
 	}
 	
+	public function gdoParameters() : array
+	{
+		return [
+			GDT_User::make('id')->ghost()->notNull(),
+		];
+	}
+	
 	public function execute()
 	{
-		$userId = Common::getRequestString('id');
-		if (!($user = GDO_User::getById($userId)))
-		{
-			# Ignore invalid users by returning guest/ghost.
-			$user = GDO_User::ghost()->setVar('user_id', $userId);
-		}
-
+		$user = $this->gdoParameterValue('id');
 		$avatar = GDO_Avatar::forUser($user);
-		
-		$_REQUEST['file'] = $avatar->getFileID();
-		
-		return GetFile::make()->execute();
+		$inputs = ['file' => $avatar->getFileID()];
+		return GetFile::make()->executeWithInputs($inputs);
 	}
+
 }
