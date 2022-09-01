@@ -25,7 +25,7 @@ final class Upload extends MethodForm
 	public function isUserRequired() : bool { return true; }
 	public function isGuestAllowed() : bool { return Module_Avatar::instance()->cfgGuestAvatars(); }
 	
-	public function beforeExecute() : void
+	public function onRenderTabs() : void
 	{
 		if (module_enabled('Account'))
 		{
