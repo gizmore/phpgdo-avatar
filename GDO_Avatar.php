@@ -8,6 +8,8 @@ use GDO\Core\GDT_Checkbox;
 use GDO\User\GDO_User;
 use GDO\File\GDT_ImageFile;
 use GDO\Core\GDT_Template;
+use GDO\Table\GDT_ListItem;
+use GDO\Core\GDT_CreatedAt;
 
 /**
  * An avatar image file.
@@ -32,11 +34,14 @@ class GDO_Avatar extends GDO
 		      scaledVersion('thumb', 375, 375),
 			GDT_Checkbox::make('avatar_public')->initial('0'),
 			GDT_CreatedBy::make('avatar_created_by')->notNull(),
+			GDT_CreatedAt::make('avatar_created_at')->notNull(),
 		];
 	}
 	
 	public function getID() : ?string { return $this->gdoVar('avatar_id'); }
 	public function getFileID() : ?string { return $this->gdoVar('avatar_file_id'); }
+	public function getUser() : GDO_User { return $this->gdoValue('avatar_created_by'); }
+	public function getUserID() : string { return $this->gdoVar('avatar_created_by'); }
 	
 	######################
 	### Default Avatar ###
@@ -128,6 +133,16 @@ class GDO_Avatar extends GDO
 	{
 		$field = GDT_Avatar::make()->gdo($this);
 		return GDT_Template::php('Avatar', 'avatar_choice.php', ['field' => $field]);
+	}
+	
+	public function renderList() : string
+	{
+		$li = GDT_ListItem::make()->gdo($this);
+		$li->creatorHeader();
+		$
+		$views = $this->
+		$li->title('li_avatar', [$views]);
+		return $li->render();
 	}
 
 }
