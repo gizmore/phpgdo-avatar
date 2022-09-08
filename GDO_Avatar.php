@@ -124,7 +124,7 @@ class GDO_Avatar extends GDO
 	##############
 	### Render ###
 	##############
-	public static function renderAvatar(GDO_User $user, float $size=32) : string
+	public static function renderAvatar(GDO_User $user, float $size=42) : string
 	{
 		return self::forUser($user)->getGDOAvatar($user)->imageSize($size)->render();
 	}
@@ -139,9 +139,7 @@ class GDO_Avatar extends GDO
 	{
 		$li = GDT_ListItem::make()->gdo($this);
 		$li->creatorHeader();
-		$
-		$views = $this->
-		$li->title('li_avatar', [$views]);
+// 		$li->title('li_avatar', [$views]);
 		return $li->render();
 	}
 
