@@ -53,6 +53,11 @@ final class GDT_Avatar extends GDT_ObjectSelect
 	{
 		return $this->user(GDO_User::current());
 	}
+	
+	public function hrefUser()
+	{
+		return $this->user->hrefProfile();
+	}
 
 	# ##############
 	# ## Choices ###
@@ -75,6 +80,16 @@ final class GDT_Avatar extends GDT_ObjectSelect
 		return $choices;
 	}
 
+	################
+	### WithLink ###
+	################
+	public bool $withLink = false;
+	public function withProfileLink(bool $withLink=true) : self
+	{
+		$this->withLink = $withLink;
+		return $this;
+	}
+	
 	# #############
 	# ## Render ###
 	# #############
