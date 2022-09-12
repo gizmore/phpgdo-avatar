@@ -83,7 +83,7 @@ final class GDT_Avatar extends GDT_ObjectSelect
 	################
 	### WithLink ###
 	################
-	public bool $withLink = false;
+	public bool $withLink = true;
 	public function withProfileLink(bool $withLink=true) : self
 	{
 		$this->withLink = $withLink;
