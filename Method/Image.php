@@ -44,7 +44,7 @@ final class Image extends Method
 			header('Content-Type: image/jpeg');
 			die(Module_Avatar::instance()->templateFile('img/default.jpeg'));
 		}
-		return GetFile::make()->executeWithInputs($this->inputs);
+		return GetFile::make()->executeWithInputs($this->inputs, false);
 	}
 	
 }
