@@ -23,6 +23,8 @@ final class Image extends Method
 
 	public function isSavingLastUrl() : bool { return false; }
 	
+	public function isUserRequired() : bool { return false; }
+	
 	public function gdoParameters() : array
 	{
 		return [
