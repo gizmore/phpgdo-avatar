@@ -57,7 +57,7 @@ final class Module_Avatar extends GDO_Module
 	    if ($this->cfgSidebar())
 	    {
 	        GDT_Page::$INSTANCE->leftBar()->addField(
-	            GDT_Link::make()->label('mt_avatar_gallery')->href(
+	            GDT_Link::make()->text('mt_avatar_gallery')->href(
 	                href('Avatar', 'Gallery')));
 	    }
 	}
