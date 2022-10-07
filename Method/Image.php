@@ -41,7 +41,7 @@ final class Image extends Method
 	{
 		if (!($this->getFileID()))
 		{
-			header('Content-Type: image/jpeg');
+			hdr('Content-Type: image/jpeg');
 			die(Module_Avatar::instance()->templateFile('img/default.jpeg'));
 		}
 		return GetFile::make()->executeWithInputs($this->inputs, false);
