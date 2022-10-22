@@ -70,7 +70,7 @@ final class Module_Avatar extends GDO_Module
 		if (!($image = $this->getConfigValue('avatar_image_guest')))
 		{
 			$path = $this->filePath('tpl/img/default.jpeg');
-			$image = GDO_File::fromPath('default.jpeg', $path)->insert()->copy();
+			$image = GDO_File::fromPath('default.jpeg', $path)->insert();
 			$column = $this->cfgColAvatarGuest();
 			$column->createScaledVersions($image);
 			$this->saveConfigVar('avatar_image_guest', $image->getID());
