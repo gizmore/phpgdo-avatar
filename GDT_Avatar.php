@@ -17,6 +17,11 @@ final class GDT_Avatar extends GDT_ObjectSelect
 {
 	use WithGDO;
 	use WithImageSize;
+	
+	public function isTestable(): bool
+	{
+		return false;
+	}
 
 	public function getDefaultName(): ?string
 	{
