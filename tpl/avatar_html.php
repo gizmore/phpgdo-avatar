@@ -9,13 +9,14 @@ $gender = $field->user->getGender();
 $field->css('width', $px);
 $field->css('height', $px);
 $field->addClass("gdo-avatar $gender");
+$avatar = GDO_Avatar::forUser($field->user);
 ?>
 <?php if ($field->withLink) : ?>
 <a href="<?=$field->hrefUser()?>">
 <?php endif; ?>
 <span<?=$field->htmlAttributes()?>
 ><img alt="<?= t('avatar_of', [$field->user->renderUserName()]); ?>"
-  src="<?=href('Avatar', 'Image', '&_ajax=1&file=' . GDO_Avatar::forUser($field->user)->getFileID()); ?>"
+  src="<?=$avatar->hrefImage()?>"
 style="padding:<?=round($az/24,1)?>px;width:<?=$px?>;height:<?=$px?>;" /></span>
 <?php if ($field->withLink) : ?>
 </a>

@@ -43,6 +43,11 @@ class GDO_Avatar extends GDO
 	public function getUser() : GDO_User { return $this->gdoValue('avatar_created_by'); }
 	public function getUserID() : string { return $this->gdoVar('avatar_created_by'); }
 	
+	public function hrefImage(): string
+	{
+		return href('Avatar', 'Image', '&_ajax=1&file=' . $this->getFileID());
+	}
+	
 	######################
 	### Default Avatar ###
 	######################
