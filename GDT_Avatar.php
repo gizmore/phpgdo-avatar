@@ -67,7 +67,7 @@ final class GDT_Avatar extends GDT_ObjectSelect
 	# ##############
 	# ## Choices ###
 	# ##############
-	public function getChoices()
+	public function getChoices(): array
 	{
 		$choices = [];
 		if (isset($this->user))
