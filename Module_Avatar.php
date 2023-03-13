@@ -106,6 +106,7 @@ final class Module_Avatar extends GDO_Module
 		{
 			GDT_Page::$INSTANCE->leftBar()->addField(
 				GDT_Link::make()->text('mt_avatar_gallery')
+					->icon('image')
 					->href(href('Avatar', 'Gallery')));
 		}
 	}
