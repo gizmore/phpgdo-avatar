@@ -51,7 +51,7 @@ class GDO_Avatar extends GDO
 	######################
 	### Default Avatar ###
 	######################
-	public static function defaultAvatar(GDO_User $user) : self
+	public static function defaultAvatar(GDO_User $user): static
 	{
 		return self::table()->blank([
 			'avatar_id'=>'0',
@@ -95,7 +95,7 @@ class GDO_Avatar extends GDO
 	###################
 	### User Avatar ###
 	###################
-	public static function forUser(GDO_User $user) : self
+	public static function forUser(GDO_User $user): static
 	{
 		if (!$user->isPersisted())
 		{

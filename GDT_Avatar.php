@@ -28,7 +28,7 @@ final class GDT_Avatar extends GDT_ObjectSelect
 		return 'avatar';
 	}
 
-	public function defaultLabel(): self
+	public function defaultLabel(): static
 	{
 		return $this->label('avatar');
 	}
@@ -89,7 +89,7 @@ final class GDT_Avatar extends GDT_ObjectSelect
 	### WithLink ###
 	################
 	public bool $withLink = true;
-	public function withProfileLink(bool $withLink=true) : self
+	public function withProfileLink(bool $withLink=true): static
 	{
 		$this->withLink = $withLink;
 		return $this;
