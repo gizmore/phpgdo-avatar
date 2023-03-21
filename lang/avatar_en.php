@@ -1,5 +1,6 @@
 <?php
 namespace GDO\Avatar\lang;
+
 return [
 	'btn_avatar' => 'Avatar',
 	'btn_set_avatar' => 'Set Avatar',

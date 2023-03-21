@@ -1,8 +1,10 @@
 <?php
 namespace GDO\Avatar\tpl;
+
 use GDO\Avatar\GDO_Avatar;
 use GDO\Avatar\GDT_Avatar;
-/** @var $field GDT_Avatar **/
+
+/** @var $field GDT_Avatar * */
 $az = round($field->imageWidth, 1);
 $px = "{$az}px";
 $gender = $field->user->getGender();
@@ -11,13 +13,17 @@ $field->css('height', $px);
 $field->addClass("gdo-avatar $gender");
 $avatar = GDO_Avatar::forUser($field->user);
 ?>
-<?php if ($field->withLink) : ?>
+<?php
+if ($field->withLink) : ?>
 <a href="<?=$field->hrefUser()?>">
-<?php endif; ?>
-<span<?=$field->htmlAttributes()?>
-><img alt="<?= t('avatar_of', [$field->user->renderUserName()]); ?>"
-  src="<?=$avatar->hrefImage()?>"
-style="padding:<?=round($az/24,1)?>px;width:<?=$px?>;height:<?=$px?>;" /></span>
-<?php if ($field->withLink) : ?>
+	<?php
+	endif; ?>
+    <span<?=$field->htmlAttributes()?>
+><img alt="<?=t('avatar_of', [$field->user->renderUserName()]);?>"
+      src="<?=$avatar->hrefImage()?>"
+      style="padding:<?=round($az / 24, 1)?>px;width:<?=$px?>;height:<?=$px?>;"/></span>
+	<?php
+	if ($field->withLink) : ?>
 </a>
-<?php endif; ?>
+<?php
+endif; ?>

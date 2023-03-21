@@ -1,37 +1,26 @@
 <?php
 namespace GDO\Avatar;
 
-use GDO\User\GDO_User;
 use GDO\Core\GDT_ObjectSelect;
-use GDO\UI\WithImageSize;
 use GDO\Core\WithGDO;
+use GDO\UI\WithImageSize;
+use GDO\User\GDO_User;
 
 /**
  * An avatar.
  *
- * @author gizmore
  * @version 7.0.1
  * @since 6.4.0
+ * @author gizmore
  */
 final class GDT_Avatar extends GDT_ObjectSelect
 {
+
 	use WithGDO;
 	use WithImageSize;
-	
-	public function isTestable(): bool
-	{
-		return false;
-	}
 
-	public function getDefaultName(): ?string
-	{
-		return 'avatar';
-	}
-
-	public function defaultLabel(): static
-	{
-		return $this->label('avatar');
-	}
+	public GDO_User $user;
+	public bool $withLink = true;
 
 	protected function __construct()
 	{
@@ -41,32 +30,25 @@ final class GDT_Avatar extends GDT_ObjectSelect
 		$this->table(GDO_Avatar::table());
 	}
 
+	public function isTestable(): bool
+	{
+		return false;
+	}
+
 	# ###########
 	# ## User ###
 	# ###########
-	public GDO_User $user;
 
-	public function user(GDO_User $user)
+	public function getDefaultName(): ?string
 	{
-		$this->user = $user;
-		$this->gdo = GDO_Avatar::forUser($user);
-		$this->initial($this->gdo->getID());
-		return $this;
+		return 'avatar';
 	}
 
-	public function currentUser()
+	public function defaultLabel(): self
 	{
-		return $this->user(GDO_User::current());
-	}
-	
-	public function hrefUser()
-	{
-		return $this->user->hrefProfile();
+		return $this->label('avatar');
 	}
 
-	# ##############
-	# ## Choices ###
-	# ##############
 	public function getChoices(): array
 	{
 		$choices = [];
@@ -75,7 +57,7 @@ final class GDT_Avatar extends GDT_ObjectSelect
 			$query = GDO_Avatar::table()->select();
 			$result = $query->select('avatar_file_id_t.*')
 				->where("avatar_public OR avatar_created_by={$this->user->getID()}")
-				->joinObject("avatar_file_id")
+				->joinObject('avatar_file_id')
 				->exec();
 			while ($gdo = $result->fetchObject())
 			{
@@ -85,24 +67,47 @@ final class GDT_Avatar extends GDT_ObjectSelect
 		return $choices;
 	}
 
-	################
-	### WithLink ###
-	################
-	public bool $withLink = true;
-	public function withProfileLink(bool $withLink=true): static
-	{
-		$this->withLink = $withLink;
-		return $this;
-	}
-	
-	# #############
-	# ## Render ###
-	# #############
 	public function renderHTML(): string
 	{
 		return Module_Avatar::instance()->php('avatar_html.php', [
-			'field' => $this
+			'field' => $this,
 		]);
+	}
+
+	# ##############
+	# ## Choices ###
+	# ##############
+
+	public function currentUser()
+	{
+		return $this->user(GDO_User::current());
+	}
+
+	################
+	### WithLink ###
+	################
+
+	public function user(GDO_User $user)
+	{
+		$this->user = $user;
+		$this->gdo = GDO_Avatar::forUser($user);
+		$this->initial($this->gdo->getID());
+		return $this;
+	}
+
+	public function hrefUser()
+	{
+		return $this->user->hrefProfile();
+	}
+
+	# #############
+	# ## Render ###
+	# #############
+
+	public function withProfileLink(bool $withLink = true): self
+	{
+		$this->withLink = $withLink;
+		return $this;
 	}
 
 }

@@ -2,13 +2,13 @@
 namespace GDO\Avatar;
 
 use GDO\Core\GDO_Module;
-use GDO\User\GDO_User;
 use GDO\Core\GDT_Checkbox;
-use GDO\File\GDT_ImageFile;
 use GDO\File\GDO_File;
-use GDO\UI\GDT_Page;
-use GDO\UI\GDT_Link;
+use GDO\File\GDT_ImageFile;
 use GDO\UI\GDT_Bar;
+use GDO\UI\GDT_Link;
+use GDO\UI\GDT_Page;
+use GDO\User\GDO_User;
 
 /**
  * Avatar module.
@@ -16,9 +16,9 @@ use GDO\UI\GDT_Bar;
  * Avatars have a colored border depending on the two real genders: mandalorian and apache helicopter.
  * This module requires the php gd library.
  *
- * @author gizmore
  * @version 7.0.2
  * @since 6.2.0
+ * @author gizmore
  * @see GDT_ImageFile
  */
 final class Module_Avatar extends GDO_Module
@@ -31,21 +31,21 @@ final class Module_Avatar extends GDO_Module
 	{
 		return [
 			GDO_Avatar::class,
-			GDO_UserAvatar::class
+			GDO_UserAvatar::class,
 		];
 	}
 
 	public function getDependencies(): array
 	{
 		return [
-			'File'
+			'File',
 		];
 	}
 
 	public function getFriendencies(): array
 	{
 		return [
-			'Account'
+			'Account',
 		];
 	}
 
@@ -82,24 +82,6 @@ final class Module_Avatar extends GDO_Module
 		];
 	}
 
-	public function cfgGuestAvatars()
-	{
-		return $this->getConfigValue('avatar_guests');
-	}
-
-	public function cfgSidebar()
-	{
-		return $this->getConfigValue('hook_sidebar');
-	}
-
-	public function cfgColAvatarGuest(): GDT_ImageFile
-	{
-		return $this->getConfigColumn('avatar_image_guest');
-	}
-
-	# ###########
-	# ## Init ###
-	# ###########
 	public function onInitSidebar(): void
 	{
 		if ($this->cfgSidebar())
@@ -111,23 +93,29 @@ final class Module_Avatar extends GDO_Module
 		}
 	}
 
-	# ##############
-	# ## Install ###
-	# ##############
+	public function cfgSidebar()
+	{
+		return $this->getConfigValue('hook_sidebar');
+	}
+
 	public function checkSystemDependencies(): bool
 	{
-		if ( !function_exists('imagecreatefromjpeg'))
+		if (!function_exists('imagecreatefromjpeg'))
 		{
 			return $this->errorSystemDependency('err_php_extension', [
-				'gd2'
+				'gd2',
 			]);
 		}
 		return true;
 	}
 
+	# ###########
+	# ## Init ###
+	# ###########
+
 	public function onInstall(): void
 	{
-		if ( !($image = $this->getConfigValue('avatar_image_guest')))
+		if (!($image = $this->getConfigValue('avatar_image_guest')))
 		{
 			$path = $this->filePath('tpl/img/default.jpeg');
 			$image = GDO_File::fromPath('default.jpeg', $path)->insert();
@@ -137,9 +125,24 @@ final class Module_Avatar extends GDO_Module
 		}
 	}
 
+	# ##############
+	# ## Install ###
+	# ##############
+
+	public function cfgColAvatarGuest(): GDT_ImageFile
+	{
+		return $this->getConfigColumn('avatar_image_guest');
+	}
+
+	public function cfgGuestAvatars()
+	{
+		return $this->getConfigValue('avatar_guests');
+	}
+
 	# ###########
 	# ## Hook ###
 	# ###########
+
 	public function hookAccountChanged(GDO_User $user): void
 	{
 		$user->tempUnset('gdo_avatar');

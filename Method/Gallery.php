@@ -7,16 +7,17 @@ use GDO\Table\MethodQueryList;
 
 /**
  * A list of user avatars to view in a gallery.
- * 
- * @author gizmore
+ *
  * @version 7.0.1
  * @since 6.9.0
+ * @author gizmore
  */
 final class Gallery extends MethodQueryList
 {
-    public function gdoTable() : GDO
-    {
-        return GDO_Avatar::table();
-    }
+
+	public function gdoTable(): GDO
+	{
+		return GDO_Avatar::table();
+	}
 
 }
