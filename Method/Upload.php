@@ -5,6 +5,7 @@ use GDO\Account\Module_Account;
 use GDO\Avatar\GDO_Avatar;
 use GDO\Avatar\GDO_UserAvatar;
 use GDO\Avatar\Module_Avatar;
+use GDO\Core\GDT;
 use GDO\Form\GDT_AntiCSRF;
 use GDO\Form\GDT_Form;
 use GDO\Form\GDT_Submit;
@@ -25,7 +26,7 @@ final class Upload extends MethodForm
 
 	public function isUserRequired(): bool { return true; }
 
-	public function isGuestAllowed(): bool { return Module_Avatar::instance()->cfgGuestAvatars(); }
+	public function isGuestAllowed(): string { return Module_Avatar::instance()->cfgGuestAvatars(); }
 
 	public function onRenderTabs(): void
 	{
@@ -43,7 +44,7 @@ final class Upload extends MethodForm
 		$form->actions()->addField(GDT_Button::make('btn_set_avatar')->href(href('Avatar', 'Set')));
 	}
 
-	public function formValidated(GDT_Form $form)
+	public function formValidated(GDT_Form $form): GDT
 	{
 		$user = GDO_User::current();
 		$avatar = GDO_Avatar::blank(['avatar_file_id' => $form->getFormVar('avatar_file_id')])->insert();

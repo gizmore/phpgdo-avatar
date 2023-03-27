@@ -2,6 +2,7 @@
 namespace GDO\Avatar\Method;
 
 use GDO\Avatar\GDO_Avatar;
+use GDO\Core\GDT;
 use GDO\Core\Method;
 use GDO\File\Method\GetFile;
 use GDO\User\GDT_User;
@@ -32,7 +33,7 @@ final class ImageUser extends Method
 		];
 	}
 
-	public function execute()
+	public function execute(): GDT
 	{
 		$user = $this->gdoParameterValue('id');
 		$avatar = GDO_Avatar::forUser($user);

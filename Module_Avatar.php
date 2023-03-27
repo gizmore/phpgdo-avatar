@@ -1,6 +1,7 @@
 <?php
 namespace GDO\Avatar;
 
+use GDO\Core\Debug;
 use GDO\Core\GDO_Module;
 use GDO\Core\GDT_Checkbox;
 use GDO\File\GDO_File;
@@ -134,9 +135,9 @@ final class Module_Avatar extends GDO_Module
 		return $this->getConfigColumn('avatar_image_guest');
 	}
 
-	public function cfgGuestAvatars()
+	public function cfgGuestAvatars(): string
 	{
-		return $this->getConfigValue('avatar_guests');
+		return $this->getConfigVar('avatar_guests');
 	}
 
 	# ###########

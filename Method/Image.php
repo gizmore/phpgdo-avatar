@@ -2,6 +2,7 @@
 namespace GDO\Avatar\Method;
 
 use GDO\Avatar\Module_Avatar;
+use GDO\Core\GDT;
 use GDO\Core\Method;
 use GDO\File\GDT_File;
 use GDO\File\Method\GetFile;
@@ -33,7 +34,7 @@ final class Image extends Method
 		];
 	}
 
-	public function execute()
+	public function execute(): GDT
 	{
 		if (!($this->getFileID()))
 		{
