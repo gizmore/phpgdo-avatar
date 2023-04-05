@@ -3,6 +3,7 @@ namespace GDO\Avatar;
 
 use GDO\Core\GDT_ObjectSelect;
 use GDO\Core\WithGDO;
+use GDO\File\GDO_File;
 use GDO\UI\WithImageSize;
 use GDO\User\GDO_User;
 
@@ -58,6 +59,7 @@ final class GDT_Avatar extends GDT_ObjectSelect
 			$result = $query->select('avatar_file_id_t.*')
 				->where("avatar_public OR avatar_created_by={$this->user->getID()}")
 				->joinObject('avatar_file_id')
+//				->fetchTable(GDO_File::table())
 				->exec();
 			while ($gdo = $result->fetchObject())
 			{
