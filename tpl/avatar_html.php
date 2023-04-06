@@ -4,7 +4,7 @@ namespace GDO\Avatar\tpl;
 use GDO\Avatar\GDO_Avatar;
 use GDO\Avatar\GDT_Avatar;
 
-/** @var $field GDT_Avatar * */
+/** @var GDT_Avatar $field * */
 $az = round($field->imageWidth, 1);
 $px = "{$az}px";
 $gender = $field->user->getGender();
