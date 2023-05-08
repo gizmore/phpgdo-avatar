@@ -58,7 +58,6 @@ class GDO_Avatar extends GDO
 				$avatar = self::defaultAvatar($user);
 			}
 			$user->tempSet('gdo_avatar', $avatar);
-			$user->recache();
 		}
 		return $avatar;
 	}

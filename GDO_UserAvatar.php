@@ -35,7 +35,6 @@ final class GDO_UserAvatar extends GDO
 		{
 			GDO_UserAvatar::table()->deleteWhere('avt_user_id=' . $user->getID());
 		}
-		$user->recache();
 		return true;
 	}
 
