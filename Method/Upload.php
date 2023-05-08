@@ -26,7 +26,7 @@ final class Upload extends MethodForm
 
 	public function isUserRequired(): bool { return true; }
 
-	public function isGuestAllowed(): string { return Module_Avatar::instance()->cfgGuestAvatars(); }
+	public function isGuestAllowed(): bool { return Module_Avatar::instance()->cfgGuestAvatars(); }
 
 	public function onRenderTabs(): void
 	{
@@ -36,7 +36,7 @@ final class Upload extends MethodForm
 		}
 	}
 
-	public function createForm(GDT_Form $form): void
+	protected function createForm(GDT_Form $form): void
 	{
 		$form->addField(GDO_Avatar::forUser(GDO_User::current())->gdoColumn('avatar_file_id')->action($this->href()));
 		$form->actions()->addField(GDT_Submit::make()->label('btn_upload'));

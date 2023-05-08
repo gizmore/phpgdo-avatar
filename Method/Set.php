@@ -25,7 +25,7 @@ final class Set extends MethodForm
 
 	public function isUserRequired(): bool { return true; }
 
-	public function isGuestAllowed(): string { return Module_Avatar::instance()->cfgGuestAvatars(); }
+	public function isGuestAllowed(): bool { return Module_Avatar::instance()->cfgGuestAvatars(); }
 
 	public function onRenderTabs(): void
 	{
@@ -42,7 +42,7 @@ final class Set extends MethodForm
 		return GDT_Container::make()->addFields($avatar, $form);
 	}
 
-	public function createForm(GDT_Form $form): void
+	protected function createForm(GDT_Form $form): void
 	{
 		$form->addClass('fl');
 		$form->addField(GDT_Avatar::make('avt_avatar_id')->currentUser());

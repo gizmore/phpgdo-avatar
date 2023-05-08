@@ -50,7 +50,7 @@ final class GDT_Avatar extends GDT_ObjectSelect
 		return $this->label('avatar');
 	}
 
-	public function getChoices(): array
+	protected function getChoices(): array
 	{
 		$choices = [];
 		if (isset($this->user))
