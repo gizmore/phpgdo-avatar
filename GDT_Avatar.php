@@ -40,14 +40,14 @@ final class GDT_Avatar extends GDT_ObjectSelect
 	# ## User ###
 	# ###########
 
-	public function getDefaultName(): ?string
+	public function gdtDefaultName(): ?string
 	{
 		return 'avatar';
 	}
 
-	public function defaultLabel(): self
+	public function gdtDefaultLabel(): ?string
 	{
-		return $this->label('avatar');
+		return 'avatar';
 	}
 
 	protected function getChoices(): array
