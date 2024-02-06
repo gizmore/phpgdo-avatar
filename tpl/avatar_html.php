@@ -19,7 +19,8 @@ if ($field->withLink) : ?>
 	<?php
 	endif; ?>
     <span<?=$field->htmlAttributes()?>
-><img alt="<?=t('avatar_of', [$field->user->renderUserName()]);?>"
+><img title="<?=t('avatar_of', [$field->user->renderUserName()]);?>"
+      alt="<?=t('avatar_of', [$field->user->renderUserName()]);?>"
       src="<?=$avatar->hrefImage()?>"
       style="padding:<?=round($az / 24, 1)?>px;width:<?=$px?>;height:<?=$px?>;"/></span>
 	<?php

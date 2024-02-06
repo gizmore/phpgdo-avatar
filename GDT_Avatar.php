@@ -76,6 +76,11 @@ final class GDT_Avatar extends GDT_ObjectSelect
 		]);
 	}
 
+    public function renderCard(): string
+    {
+        return $this->renderHTML();
+    }
+
 	# ##############
 	# ## Choices ###
 	# ##############
