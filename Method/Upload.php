@@ -40,7 +40,7 @@ final class Upload extends MethodForm
 	{
 		$form->addField(GDO_Avatar::forUser(GDO_User::current())->gdoColumn('avatar_file_id')->action($this->href()));
 		$form->actions()->addField(GDT_Submit::make()->label('btn_upload'));
-		$form->addField(GDT_AntiCSRF::make());
+		$form->addField(GDT_AntiCSRF::make()->fixed());
 		$form->actions()->addField(GDT_Button::make('btn_set_avatar')->href(href('Avatar', 'Set')));
 	}
 
