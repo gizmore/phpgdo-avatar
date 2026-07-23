@@ -47,7 +47,7 @@ final class Upload extends MethodForm
 	public function formValidated(GDT_Form $form): GDT
 	{
 		$user = GDO_User::current();
-		$avatar = GDO_Avatar::blank(['avatar_file_id' => $form->getFormVar('avatar_file_id')])->insert();
+		$avatar = GDO_Avatar::blank(['avatar_file_id' => $form->getFormVar('avatar_file_id')])->softReplace();
 		GDO_UserAvatar::updateAvatar($user, $avatar->getID());
 		$this->resetForm();
 		return GDT_Redirect::make()->redirectMessage('msg_avatar_uploaded')->href(href('Avatar', 'Set'));

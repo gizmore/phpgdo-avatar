@@ -138,9 +138,9 @@ class GDO_Avatar extends GDO
 		return [
 			GDT_AutoInc::make('avatar_id'),
 			GDT_ImageFile::make('avatar_file_id')->notNull()->
-			previewHREF(href('Avatar', 'Image', '&file={id}'))->
-			scaledVersion('icon', 96, 96)->
-			scaledVersion('thumb', 375, 375),
+                previewHREF(href('Avatar', 'Image', '&file={id}'))->
+                scaledVersion('icon', 96, 96)->
+                scaledVersion('thumb', 375, 375),
 			GDT_Checkbox::make('avatar_public')->initial('0'),
 			GDT_CreatedBy::make('avatar_created_by')->notNull(),
 			GDT_CreatedAt::make('avatar_created_at')->notNull(),
