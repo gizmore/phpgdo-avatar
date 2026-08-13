@@ -2,8 +2,9 @@
 namespace GDO\Avatar\Websocket;
 
 use GDO\Avatar\GDO_Avatar;
-use GDO\Avatar\Method\Upload;
-use GDO\Websocket\Server\GWS_CommandForm;
+use GDO\Avatar\GDO_UserAvatar;
+use GDO\File\GDO_File;
+use GDO\Websocket\Server\GWS_Command;
 use GDO\Websocket\Server\GWS_Commands;
 use GDO\Websocket\Server\GWS_Global;
 use GDO\Websocket\Server\GWS_Message;
@@ -17,18 +18,46 @@ use GDO\Websocket\Server\GWS_Message;
  **@author gizmore@wechall.net
  * @license MIT
  */
-class GWS_AvatarUpload extends GWS_CommandForm
+class GWS_AvatarUpload extends GWS_Command
 {
-
-	public function getMethod() { return Upload::make(); }
-
-	public function afterReplySuccess(GWS_Message $msg)
+	public function execute(GWS_Message $msg)
 	{
-		$user = $msg->user();
-		$user->tempUnset('gdo_avatar');
-		$avatarid = GDO_Avatar::forUser($user)->getFileID();
+		$identifier = preg_replace('/[^A-Za-z0-9_-]/', '', $msg->readString());
+		if ((!$identifier) || !($file = $this->fileForIdentifier($identifier)))
+		{
+			$msg->replyErrorMessage($msg->cmd(), t('err_upload_failed'));
+			return;
+		}
 
-		$this->sendNotifications($msg, $user->getID(), $avatarid);
+		$user = $msg->user();
+		$avatar = GDO_Avatar::blank(['avatar_file_id' => $file->getID()])->insert();
+		GDO_UserAvatar::updateAvatar($user, $avatar->getID());
+
+		$this->sendNotifications($msg, $user->getID(), $file->getID());
+		$msg->replyBinary($msg->cmd(), '');
+	}
+
+	/**
+	 * HTTP Flow uploads and WebSocket commands do not necessarily share a PHP
+	 * session. Resolve the completed Flow upload by its client-side identifier.
+	 */
+	private function fileForIdentifier(string $identifier): ?GDO_File
+	{
+		foreach (glob(GDO_TEMP_PATH . 'flow/*/avatar_file_id/' . $identifier, GLOB_ONLYDIR) ?: [] as $dir)
+		{
+			if (is_file($dir . '/id') && ($id = trim((string)file_get_contents($dir . '/id'))) && ($file = GDO_File::getById($id)))
+			{
+				return $file;
+			}
+			if (is_file($dir . '/0') && is_file($dir . '/name'))
+			{
+				$file = GDO_File::fromPath(trim((string)file_get_contents($dir . '/name')), $dir . '/0');
+				$file->insert();
+				file_put_contents($dir . '/id', $file->getID());
+				return $file;
+			}
+		}
+		return null;
 	}
 
 	protected function sendNotifications(GWS_Message $msg, $userid, $avatarid)
