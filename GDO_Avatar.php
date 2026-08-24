@@ -122,7 +122,12 @@ class GDO_Avatar extends GDO
 	public function renderList(): string
 	{
 		$li = GDT_ListItem::make()->gdo($this);
-		$li->creatorHeader();
+		$assignment = $this->getAssignment();
+		$user = $this->getAssignedUser($assignment) ?? $this->getUser();
+		$registeredAt = $assignment?->gdoVar('avt_created_at') ?? $this->gdoVar('avatar_created_at');
+		$li->avatarUser($user, 52)->
+			titleRaw($user->renderUserName())->
+			subtitle('registered_at', [date('d.m.Y', strtotime($registeredAt))]);
 // 		$li->title('li_avatar', [$views]);
 		return $li->render();
 	}
@@ -148,6 +153,23 @@ class GDO_Avatar extends GDO
 	}
 
 	public function getUser(): GDO_User { return $this->gdoValue('avatar_created_by'); }
+
+	/**
+	 * The user currently using this avatar, if it has been assigned.
+	 *
+	 * An avatar file may be uploaded by an administrator and assigned to a
+	 * different user, so avatar_created_by is not the right gallery identity.
+	 */
+	public function getAssignment(): ?GDO_UserAvatar
+	{
+		return GDO_UserAvatar::getBy('avt_avatar_id', $this->getID());
+	}
+
+	public function getAssignedUser(?GDO_UserAvatar $assignment = null): ?GDO_User
+	{
+		$user = ($assignment ?? $this->getAssignment())?->gdoValue('avt_user_id');
+		return $user instanceof GDO_User ? $user : null;
+	}
 
 	##############
 	### Render ###
