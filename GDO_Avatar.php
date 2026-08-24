@@ -124,11 +124,16 @@ class GDO_Avatar extends GDO
 		$li = GDT_ListItem::make()->gdo($this);
 		$assignment = $this->getAssignment();
 		$user = $this->getAssignedUser($assignment) ?? $this->getUser();
-		$registeredAt = $assignment?->gdoVar('avt_created_at') ?? $this->gdoVar('avatar_created_at');
 		$li->avatarUser($user, 52)->
-			titleRaw($user->renderUserName())->
-			subtitle('registered_at', [date('d.m.Y', strtotime($registeredAt))]);
-// 		$li->title('li_avatar', [$views]);
+			titleRaw($user->renderUserName());
+        if (module_enabled('Register'))
+        {
+            $li->subtitle($user->setting('Register', 'register_date'));
+        }
+        if (module_enabled('AboutMe'))
+        {
+            $li->footer($user->setting('AboutMe', 'about_me'));
+        }
 		return $li->render();
 	}
 
