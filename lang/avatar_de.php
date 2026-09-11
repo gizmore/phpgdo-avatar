@@ -4,7 +4,7 @@ namespace GDO\Avatar\lang;
 return [
 	'btn_avatar' => 'Avatar',
 	'btn_set_avatar' => 'Avatar setzen',
-	'avatar_of' => '%s\'s Avatar',
+	'avatar_of' => 'Avatar von %s',
 	###########
 	'cfg_avatar_guests' => 'Erlaube Gast-Avatare',
 	'cfg_avatar_image_guest' => 'Standard Gast Avatar',
