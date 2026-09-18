@@ -8,9 +8,10 @@ use GDO\Avatar\GDT_Avatar;
 $az = round($field->imageWidth, 1);
 $px = "{$az}px";
 $gender = $field->user->getGender();
+$bot = $field->user->isBot() ? ' bot' : '';
 $field->css('width', $px);
 $field->css('height', $px);
-$field->addClass("gdo-avatar $gender");
+$field->addClass("gdo-avatar $gender$bot");
 $avatar = GDO_Avatar::forUser($field->user);
 ?>
 <?php

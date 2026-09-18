@@ -22,6 +22,33 @@
     background: #f08;
 }
 
+/* Automated accounts carry the same small violet laptop badge as LinkUUp. */
+.gdo-avatar.bot::after,
+.gdo-avatar.bot::before {
+    content:'';
+    position:absolute;
+    z-index:2;
+    pointer-events:none;
+    box-sizing:border-box;
+    background:linear-gradient(145deg,#cfb7ff,#7653c8 68%,#4c328e);
+    border:1px solid rgba(247,241,255,.88);
+    box-shadow:0 2px 5px rgba(42,20,83,.60),inset 0 1px 0 rgba(255,255,255,.40);
+}
+.gdo-avatar.bot::after {
+    right:-2px;
+    bottom:3px;
+    width:38%;
+    height:28%;
+    border-radius:3px 3px 2px 2px;
+}
+.gdo-avatar.bot::before {
+    right:-5px;
+    bottom:0;
+    width:47%;
+    height:9%;
+    border-radius:2px 2px 4px 4px;
+}
+
 #gdo-right-bar .gdo-avatar,
 .gdo-panel .gdo-avatar {
     width: 20px;
