@@ -151,7 +151,7 @@ final class Module_Avatar extends GDO_Module
 
 	public function hookAccountBar(GDT_Bar $bar): void
 	{
-		$bar->addField(GDT_Link::make('btn_avatar')->href(href('Avatar', 'Set')));
+		$bar->addField(GDT_Link::make('btn_avatar')->href(href('Avatar', 'Set'))->icon('image'));
 	}
 
 }
