@@ -147,7 +147,7 @@ class GDO_Avatar extends GDO
 	{
 		return [
 			GDT_AutoInc::make('avatar_id'),
-			GDT_ImageFile::make('avatar_file_id')->notNull()->
+			GDT_ImageFile::make('avatar_file_id')->label('avatar')->notNull()->
                 previewHREF(href('Avatar', 'Image', '&file={id}'))->
                 scaledVersion('icon', 96, 96)->
                 scaledVersion('thumb', 375, 375),
