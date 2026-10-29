@@ -2,6 +2,8 @@
 namespace GDO\Avatar;
 
 use GDO\Core\GDT_ObjectSelect;
+use GDO\Core\GDT_Hook;
+use GDO\Core\GDT;
 use GDO\Core\WithGDO;
 use GDO\File\GDO_File;
 use GDO\UI\WithImageSize;
@@ -71,9 +73,16 @@ final class GDT_Avatar extends GDT_ObjectSelect
 
 	public function renderHTML(): string
 	{
-		return Module_Avatar::instance()->php('avatar_html.php', [
+		$avatar = Module_Avatar::instance()->php('avatar_html.php', [
 			'field' => $this,
 		]);
+		$layers = GDT_Hook::callHook('AvatarLayers', $this->user, (float) $this->imageWidth);
+		if (!$layers)
+		{
+			return $avatar;
+		}
+		return '<span class="gdo-avatar-layers" style="position:relative;display:inline-block">' .
+			$avatar . $layers->renderFields(GDT::RENDER_HTML) . '</span>';
 	}
 
     public function renderCard(): string
